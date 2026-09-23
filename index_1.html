@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>스마트폰 활용 중급반</title>
+<style>
+  :root { color-scheme: light dark; }
+  html, body { margin: 0; }
+  img { max-width: 100%; }
+
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@700;900&family=Noto+Sans+KR:wght@400;500;600;700&display=swap');
+
+  :root {
+    --ink: #2F3C7E;
+    --ink-soft: #565f8f;
+    --coral: #F96167;
+    --coral-deep: #D8474D;
+    --gold: #B9860A;
+    --gold-soft: #FBEFCB;
+    --paper: #FFFEFC;
+    --surface: #F7F4F0;
+    --surface-2: #FDECE9;
+    --line: #E8E2DA;
+    --line-soft: #EFEAE3;
+    --pending-bg: #F1EFEB;
+    --pending-text: #8B8578;
+    --shadow: 0 1px 2px rgba(47,60,126,0.06), 0 6px 20px -8px rgba(47,60,126,0.18);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #E9E7FF;
+      --ink-soft: #ABA9D6;
+      --coral: #FF8B84;
+      --coral-deep: #FFA79E;
+      --gold: #F0C24B;
+      --gold-soft: #3A3220;
+      --paper: #14172A;
+      --surface: #1C2040;
+      --surface-2: #2A2144;
+      --line: #333A63;
+      --line-soft: #262C4E;
+      --pending-bg: #1D2140;
+      --pending-text: #8E93C4;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -10px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #E9E7FF;
+    --ink-soft: #ABA9D6;
+    --coral: #FF8B84;
+    --coral-deep: #FFA79E;
+    --gold: #F0C24B;
+    --gold-soft: #3A3220;
+    --paper: #14172A;
+    --surface: #1C2040;
+    --surface-2: #2A2144;
+    --line: #333A63;
+    --line-soft: #262C4E;
+    --pending-bg: #1D2140;
+    --pending-text: #8E93C4;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 10px 28px -10px rgba(0,0,0,0.55);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    padding-inline: 20px;
+    max-width: 760px;
+    margin: 0 auto;
+  }
+  h1, h2, h3 { font-family: "Noto Serif KR", "Malgun Gothic", serif; text-wrap: balance; margin: 0; }
+  a { color: inherit; }
+
+  header.top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    background: var(--paper);
+    padding-block: 14px 10px;
+    border-bottom: 1px solid var(--line-soft);
+    z-index: 5;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  header.top .brand { font-weight: 700; font-size: 15px; letter-spacing: 0.02em; color: var(--ink-soft); }
+  header.top .brand b { color: var(--coral); }
+  header.top .count { font-size: 13px; color: var(--ink-soft); white-space: nowrap; }
+
+  .hero { padding-block: 30px 22px; border-bottom: 1px solid var(--line-soft); }
+  .hero h1 { font-size: clamp(28px, 6vw, 38px); font-weight: 900; color: var(--ink); }
+  .hero p.lede { margin-top: 12px; color: var(--ink-soft); font-size: 16px; max-width: 56ch; }
+
+  .stat-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+  .stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 16px; flex: 1 1 140px; }
+  .stat .n { font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 22px; color: var(--coral); line-height: 1.1; }
+  .stat .l { font-size: 13px; color: var(--ink-soft); margin-top: 2px; }
+
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 18px; font-size: 13.5px; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot.c1 { background: var(--coral); }
+  .dot.c2 { background: var(--gold); }
+
+  .sessions { padding-block: 26px 60px; display: flex; flex-direction: column; gap: 14px; }
+
+  .session {
+    display: grid; grid-template-columns: 52px 1fr; gap: 16px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+    padding: 18px 18px 16px; box-shadow: var(--shadow);
+  }
+  .session .badge {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--coral);
+    display: flex; align-items: center; justify-content: center;
+    font-family: "Noto Serif KR", serif; font-weight: 900; font-size: 19px; color: var(--coral);
+  }
+  .session.pending .badge { border-color: var(--line); color: var(--pending-text); }
+
+  .session .title { font-weight: 700; font-size: 18.5px; color: var(--ink); text-wrap: balance; }
+
+  .topics { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
+  .topic-line { display: flex; gap: 8px; align-items: baseline; font-size: 14.5px; }
+  .topic-tag { flex: none; font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em; padding: 2px 8px; border-radius: 999px; white-space: nowrap; }
+  .topic-tag.p1 { background: var(--surface-2); color: var(--coral-deep); }
+  .topic-tag.p2 { background: var(--gold-soft); color: var(--gold); }
+  .topic-text { color: var(--ink); opacity: 0.88; }
+
+  .materials { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 700; padding: 9px 14px; border-radius: 10px; text-decoration: none; border: 1px solid transparent; }
+  .btn.ready { background: var(--coral); color: #fff; }
+  .btn.ready:active { background: var(--coral-deep); }
+  .new-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.04em; padding: 1px 7px; border-radius: 999px; background: var(--coral); color: #fff; vertical-align: 2px; }
+  .notice { margin-top: 18px; background: var(--gold-soft); border-radius: 12px; padding: 12px 16px; font-size: 14.5px; color: var(--ink); }
+  .notice b { color: var(--coral-deep); }
+  .btn.pending { background: var(--pending-bg); color: var(--pending-text); cursor: default; }
+
+  footer { border-top: 1px solid var(--line-soft); padding-block: 22px 34px; font-size: 13px; color: var(--ink-soft); }
+  footer a.repo { color: var(--coral); font-weight: 700; text-decoration: none; }
+
+  [hidden] { display: none !important; }
+
+  @media (max-width: 460px) {
+    .session { grid-template-columns: 40px 1fr; padding: 15px 14px; }
+    .session .badge { width: 40px; height: 40px; font-size: 15px; }
+    .hero { padding-block: 22px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">스마트폰 활용 3기 <b>중급반</b></div>
+  <div class="count">전체 10차시</div>
+</header>
+
+<section class="hero">
+  <h1>매 차시 학습자료실</h1>
+  <p class="lede">수업이 끝난 차시부터 강의 PDF와 배포용 유인물을 이곳에 순서대로 올려드립니다. 즐겨찾기에 이 페이지를 저장해두시고, 수업 후 다시 열어 복습하실 때 사용하세요.</p>
+
+  <div class="stat-row">
+    <div class="stat"><div class="n">10</div><div class="l">총 차시</div></div>
+    <div class="stat"><div class="n">2h</div><div class="l">회당 수업 시간</div></div>
+    <div class="stat"><div class="n" id="openCount">2</div><div class="l">현재 공개된 차시</div></div>
+  </div>
+
+  <p class="notice"><b>커리큘럼이 바뀌었어요 (9/23)</b> — 생활에 바로 쓰는 내용으로 새 주제가 들어갔습니다: 커피앱 주문(4차시) · 온통대전·온누리상품권(3차시) · 문화상품권(7차시) · 영화 예매(8차시)</p>
+
+  <div class="legend">
+    <span><i class="dot c1"></i>1교시 · 폰 관리</span>
+    <span><i class="dot c2"></i>2교시 · 실생활 앱</span>
+    <span><b class="new-tag">NEW</b> 새로 바뀐 주제</span>
+  </div>
+</section>
+
+<section class="sessions" id="sessions"></section>
+
+<footer>
+  자료는 <a class="repo" href="https://github.com/itafterschool-svg/smartphone" target="_blank" rel="noopener">github.com/itafterschool-svg/smartphone</a> 저장소에 보관되며, 차시가 끝날 때마다 이 페이지에 순서대로 추가됩니다.
+</footer>
+
+<script>
+(function () {
+  var REPO = "https://github.com/itafterschool-svg/smartphone/blob/main/";
+
+  var sessions = [
+    {
+      num: 1,
+      title: "내 폰 속도 올리기 & 알림 다이어트 + 카카오톡 200% 활용",
+      p1: "저장공간 확보 & 알림·화면 관리",
+      p2: "카카오톡 200% 활용",
+      materials: [
+        { label: "강의 PPT (PDF)", file: "1차시_강의안_PPT.pdf" },
+        { label: "배포용 유인물 (PDF)", file: "1차시_배포용_A4.pdf" }
+      ]
+    },
+    { num: 2, title: "스미싱·보이스피싱 대처법 & 써클투서치·스마트렌즈", p1: "스미싱·보이스피싱 구별 및 대처법", p2: "써클투서치 & 스마트렌즈로 검색하기", materials: [] },
+    {
+      num: 3,
+      title: "스팸 차단 & 보안 설정 + 추석 특집: 온통대전·온누리상품권",
+      p1: "스팸 차단 & 스마트폰 보안 설정 (명절 사칭 문자 주의)",
+      p2: "온통대전 & 온누리상품권, 폰으로 알뜰하게 구매·사용하기",
+      isNew: true,
+      materials: [
+        { label: "강의 PPT (PDF)", file: "3차시_강의안_PPT.pdf" },
+        { label: "배포용 유인물 (PDF)", file: "3차시_배포용_A4.pdf" }
+      ]
+    },
+    { num: 4, title: "배터리·백그라운드 앱 관리 & 커피앱으로 미리 주문하기", p1: "배터리 관리 & 백그라운드 앱 최적화", p2: "커피앱으로 줄 서지 않고 주문하기", isNew: true, materials: [] },
+    { num: 5, title: "계정 보안 관리 & 지도·대중교통 한 번에 정복", p1: "비밀번호·생체인증 & 2단계 인증", p2: "지도 길찾기 + 버스·지하철 실시간 정보", materials: [] },
+    { num: 6, title: "홈화면 커스터마이징 & 카카오T·코레일톡", p1: "위젯·폴더로 홈 화면 정리", p2: "카카오T 택시 호출 & 코레일톡 기차 예매", materials: [] },
+    { num: 7, title: "화면 캡처·자료 공유 & 간편송금·문화상품권", p1: "화면 캡처·녹화 & 자료 공유 방법", p2: "간편송금 & 문화상품권 구매·선물하기", isNew: true, materials: [] },
+    { num: 8, title: "접근성 설정 심화 & 영화 예매하기", p1: "접근성 설정으로 더 편하게 보기", p2: "영화 예매하기 (문화상품권으로 결제)", isNew: true, materials: [] },
+    { num: 9, title: "갤러리 사진 보정 & AI 챗봇·AI 사진 복원", p1: "갤러리 기본 사진 보정", p2: "AI 챗봇 첫걸음 & AI 사진 복원", materials: [] },
+    { num: 10, title: "클라우드 백업 심화 & 당근마켓·종합 복습", p1: "데이터 백업 심화 점검", p2: "당근마켓 동네생활 & 종합 Q&A", materials: [] }
+  ];
+
+  function esc(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  var root = document.getElementById("sessions");
+  var html = sessions.map(function (s) {
+    var hasFiles = s.materials.length > 0;
+    var matHtml = hasFiles
+      ? s.materials.map(function (m) {
+          return '<a class="btn ready" href="' + REPO + encodeURIComponent(m.file) + '" target="_blank" rel="noopener">' + esc(m.label) + "</a>";
+        }).join("")
+      : '<span class="btn pending">자료 준비중</span>';
+
+    return (
+      '<article class="session' + (hasFiles ? "" : " pending") + '">' +
+        '<div class="badge">' + s.num + "</div>" +
+        "<div>" +
+          '<div class="title">' + s.num + "차시. " + esc(s.title) + (s.isNew ? ' <span class="new-tag">NEW</span>' : "") + "</div>" +
+          '<div class="topics">' +
+            '<div class="topic-line"><span class="topic-tag p1">1교시</span><span class="topic-text">' + esc(s.p1) + "</span></div>" +
+            '<div class="topic-line"><span class="topic-tag p2">2교시</span><span class="topic-text">' + esc(s.p2) + "</span></div>" +
+          "</div>" +
+          '<div class="materials">' + matHtml + "</div>" +
+        "</div>" +
+      "</article>"
+    );
+  }).join("");
+
+  root.innerHTML = html;
+  var oc = document.getElementById("openCount");
+  if (oc) oc.textContent = sessions.filter(function (s) { return s.materials.length > 0; }).length;
+})();
+</script>
+</body>
+</html>
